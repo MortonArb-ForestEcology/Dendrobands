@@ -9,6 +9,12 @@ dendroband$date_observed <- factor(dendroband$date_observed) #Format dates as da
 #Diameter
 dendroband$dist_from_collar <- dendroband$dist_from_collar / pi #convert circumference to diameter in the dataframe
 
+#subtract minimum for each species to offset bands settling
+for(id in unique(dendroband$id)){ #for each tree
+  dendroband[which(dendroband$id == id),]$dist_from_collar <- 
+    dendroband[which(dendroband$id == id),]$dist_from_collar -
+    min(dendroband[which(dendroband$id == id),]$dist_from_collar, na.rm = TRUE) #subtract the minimum from each measurement
+}
 
 
 
