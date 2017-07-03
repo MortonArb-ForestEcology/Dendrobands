@@ -10,7 +10,7 @@ dendroband$date_observed <- factor(dendroband$date_observed) #Format dates as da
 dendroband$dist_from_collar <- dendroband$dist_from_collar / pi #convert circumference to diameter in the dataframe
 
 
-#subtract minimum for each species to offset bands settling
+#subtract minimum for each tree to offset bands settling
 for(id in unique(dendroband$id)){ #for each tree
   dendroband[which(dendroband$id == id),]$dist_from_collar <- 
     dendroband[which(dendroband$id == id),]$dist_from_collar -
@@ -19,6 +19,32 @@ for(id in unique(dendroband$id)){ #for each tree
 
 
 #Convert diameter to growth (mm/day) - use difftime to get days between each measurement
+for (id in unique(dendroband$id)){ #for each tree
+  dates <- dendroband[which(dendroband$id == id),]$date_observed #get the observation dates
+  obs <- dendroband[which(dendroband$id == id),]$dist_from_collar #get measurements
+  seq_1 <- seq(2, length(dates)) #create sequence for selecting dates to subtract
+  seq_2 <- seq_1 +1 #create sequence for selecting dates to subtract from
+  print(obs)
+  
+  date_diff <- list() #create empty list for number of days
+  obs_diff <- list()
+  for (d in 1:(length(dates) - 2)){ #for each date difference (remembering that the 1st date is considered not reliable)
+    diff <- difftime(dates[seq_2[d]], dates[seq_1[d]], units = c("days")) #calculate difference between two dates
+    date_diff <- append(date_diff, as.numeric(diff), after = length(date_diff)) #append days between observations to list
+    print(date_diff)
+    
+    #Not working yet
+    #dist_diff <- obs[seq_2[d]] - obs[seq_1[d]] #calculate difference between measurements
+    #print(dist_diff)
+    #obs_diff <- append(obs_diff, dist_diff, after = (obs_diff)) #append measurement differences to list
+    #print(obs_diff)
+    
+  }
+  
+  
+  
+}
+
 
 
 
