@@ -27,17 +27,24 @@ for (id in unique(dendroband$id)){ #for each tree
   print(obs)
   
   date_diff <- list() #create empty list for number of days
-  obs_diff <- list()
+  obs_diff <- list() #create empty list for mm grown
+  growth_list <- list() #create empty list for growth
   for (d in 1:(length(dates) - 2)){ #for each date difference (remembering that the 1st date is considered not reliable)
     diff <- difftime(dates[seq_2[d]], dates[seq_1[d]], units = c("days")) #calculate difference between two dates
     date_diff <- append(date_diff, as.numeric(diff), after = length(date_diff)) #append days between observations to list
     print(date_diff)
     
-    #Not working yet
-    #dist_diff <- obs[seq_2[d]] - obs[seq_1[d]] #calculate difference between measurements
-    #print(dist_diff)
-    #obs_diff <- append(obs_diff, dist_diff, after = (obs_diff)) #append measurement differences to list
-    #print(obs_diff)
+    
+    dist_diff <- obs[seq_2[d]] - obs[seq_1[d]] #calculate difference between measurements
+    print(dist_diff)
+    obs_diff <- append(obs_diff, dist_diff, after = length(obs_diff)) #append measurement differences to list
+    print(obs_diff)
+    
+    #Needs more work. This is for each tree, now how to summarize the results over all trees
+    growth <- obs_diff / date_diff #Divide mm distance by number of days to get mm/day
+    growth_list <- append(growth_list, growth, after = growth_list) #append growth 
+    print(growth_list)
+    
     
   }
   
