@@ -11,6 +11,8 @@ dendroband <- dendroband[order(dendroband[,2]),] #sort dataframe by date of meas
 #Diameter
 dendroband$dist_from_collar <- dendroband$dist_from_collar / pi #convert circumference to diameter in the dataframe
 
+#Basal area (mm) - should this go before or after minimum correction below? My though is the correction should come 1st
+dendroband$dist_from_collar <- pi * ((dendroband$dist_from_collar / 2) ^2)
 
 #subtract minimum for each tree to offset bands settling
 for(id in unique(dendroband$id)){ #for each tree
