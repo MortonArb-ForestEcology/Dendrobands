@@ -1,18 +1,15 @@
 library(ggplot2) #Load necessary library
 setwd("~/Forest_Ecology/Dendrobands/Oak_Collection") #Set working directory to data file location
-dendroband <- read.csv("DendrobandObservations_OakCollection_2017-06-27.csv", na.strings=c("", "negative")) #read in data file
-dendroband$date_observed <- as.Date(dendroband$date_observed, format="%m/%d/%Y") #Format dates as dates
+dendroband <- read.csv("DendrobandObservations_OakCollection_2017-08-25.csv", na.strings=c("", "negative")) #read in data file
+#dendroband$date_observed <- as.Date(dendroband$date_observed, format="%m/%d/%Y") #Format dates as dates Not working anymore, but doesn't seem to be needed
 dendroband$date_observed <- factor(dendroband$date_observed) #Format dates as dates
 
 
 #Order by date observed
-dendroband <- dendroband[order(dendroband[,2]),] #sort dataframe by date of measurement
+dendroband <- dendroband[order(dendroband$date_observed),] #sort dataframe by date of measurement
 
 #Diameter
 dendroband$dist_from_collar <- dendroband$dist_from_collar / pi #convert circumference to diameter in the dataframe
-
-#Basal area (mm) - should this go before or after minimum correction below? My though is the correction should come 1st
-dendroband$dist_from_collar <- pi * ((dendroband$dist_from_collar / 2) ^2)
 
 #subtract minimum for each tree to offset bands settling
 for(id in unique(dendroband$id)){ #for each tree
@@ -21,8 +18,10 @@ for(id in unique(dendroband$id)){ #for each tree
     min(dendroband[which(dendroband$id == id),]$dist_from_collar, na.rm = TRUE) #subtract the minimum from each measurement
 }
 
+#Basal area (mm^2) 
+dendroband$dist_from_collar <- pi * ((dendroband$dist_from_collar / 2) ^2)
 
-#Convert diameter to growth (mm/day) - use difftime to get days between each measurement
+#Convert diameter/area to growth (mm/day) - use difftime to get days between each measurement
 growth_df1 <- data.frame() #create empty df for rbinding
 
 for (id in unique(dendroband$id)){ #for each tree
