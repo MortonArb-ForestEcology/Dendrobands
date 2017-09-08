@@ -1,9 +1,9 @@
 library(ggplot2) #Load necessary library
 setwd("~/Forest_Ecology/Dendrobands/Oak_Collection") #Set working directory to data file location
-dendroband <- read.csv("DendrobandObservations_OakCollection_2017-08-25.csv", na.strings=c("", "negative")) #read in data file
+dendroband <- read.csv("DendrobandObservations_OakCollection_2017-09-06.csv", na.strings=c("", "negative")) #read in data file
 #dendroband$date_observed <- as.Date(dendroband$date_observed, format="%m/%d/%Y") #Format dates as dates Not working anymore, but doesn't seem to be needed
 dendroband$date_observed <- factor(dendroband$date_observed) #Format dates as dates
-
+ 
 
 #Order by date observed
 dendroband <- dendroband[order(dendroband$date_observed),] #sort dataframe by date of measurement
@@ -31,7 +31,7 @@ for (id in unique(dendroband$id)){ #for each tree
   seq_1 <- seq(2, length(dates)) #create sequence for selecting dates to subtract
   seq_2 <- seq_1 + 1 #create sequence for selecting dates to subtract from
   
-  id_df <- dendroband[which(dendroband$id==id),][3:(length(dates)),][,1:5] #create df with metadata
+  id_df <- dendroband[which(dendroband$id==id),][3:(length(dates)),][,1:which(colnames(dendroband) == "id")] #create df with metadata
   
   date_diff <- list() #create empty list for number of days
   obs_diff <- list() #create empty list for mm grown
@@ -49,7 +49,7 @@ for (id in unique(dendroband$id)){ #for each tree
  
   growth <- as.numeric(obs_diff) / as.numeric(date_diff) #Divide mm distance by number of days to get mm/day
   id_df <- do.call(cbind, list(id_df,growth)) #add growth measurements to new column combined with metadata  
-  colnames(id_df)[6] <- "mm_day" #Change column name
+  colnames(id_df)[length(id_df)] <- "mm_day" #Change column name
   growth_df1 <- rbind(growth_df1, id_df) #add growth df for each individual tree to a single df
   
 }
