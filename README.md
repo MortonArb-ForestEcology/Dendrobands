@@ -53,7 +53,7 @@ If you're looking for the nuts & bolts of how each step is done, these are the s
 ### Description of Workflow Scripts/Steps
 
 #### Dendrometer
-1. **dendroband_plotting_BZ.R**
+1. **dendroband_plotting_LC.R**
 This script uses data from dendrometer bands on trees within plots established in the East Woods of The Morton Arboretum.  It calculates basal area then converts for growth (mm/day). This script also plots the total movement of the band away from the collar.
 3. **maps_dendrometer_bands.R**
 This script creates a map of trees with dendrometer bands on them in the Oak Collection at The Morton Arboretum.
