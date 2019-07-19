@@ -1,11 +1,13 @@
 library(ggplot2) #Load necessary library
 library(scales)
-#setwd("~/Forest_Ecology/Dendrobands/Oak_Collection") #Set working directory to data file location
-setwd("C:/Users/BZumwalde/Desktop/Dendro")
-dendroband <- read.csv("DendrobandObservations_EastWoods_v2.csv", na.strings=c("", "negative", "9999.00", "999.00","9999", "999")) #read in data file
-#dendroband <- read.csv("LCDendrometerBands_Quercus_Consolidated_2017-2019.csv", na.strings=c("", "negative", "9999.00", "999.00")) #read in data file
-dendroband$date_observed <- as.Date(dendroband$date_observed, format="%m/%d/%Y") #Format dates as dates Not working anymore, but doesn't seem to be needed
-dendroband$date_observed <- factor(dendroband$date_observed) #Format dates as dates
+
+#Loading in the data
+
+setwd("~/GitHub/Dendrobands/Raw_data") #Set working directory to data file location
+
+#read in data file
+dendroband <- read.csv("LCDendrometerBands_Quercus_Consolidated_2017-2019.csv", na.strings=c("", "negative", "9999.00", "999.00"))
+dendroband$date_observed <- as.Date(dendroband$date_observed, format="%m/%d/%Y") #Format dates as dates
 summary(dendroband) 
 
 #Order by date observed
